@@ -12,7 +12,10 @@ product_name = []
 product_price = []
 product_label = []
 product_description = []
-pages_links = ['https://www.carrefour.tn/default/mes-courses-alimentaires/boissons/jus.html?p=1','https://www.carrefour.tn/default/mes-courses-alimentaires/boissons/jus.html?p=2','https://www.carrefour.tn/default/mes-courses-alimentaires/boissons/jus.html?p=3']
+###############################
+## Insert page links inside this array 
+pages_links = ['https://www.carrefour.tn/default/mes-courses-alimentaires/epicerie-sucree/petit-dejeuner/cafe-et-chocolat-en-poudre.html?p=1','https://www.carrefour.tn/default/mes-courses-alimentaires/epicerie-sucree/petit-dejeuner/cafe-et-chocolat-en-poudre.html?p=2','https://www.carrefour.tn/default/mes-courses-alimentaires/epicerie-sucree/petit-dejeuner/cafe-et-chocolat-en-poudre.html?p=3','https://www.carrefour.tn/default/mes-courses-alimentaires/epicerie-sucree/petit-dejeuner/cafe-et-chocolat-en-poudre.html?p=4','https://www.carrefour.tn/default/mes-courses-alimentaires/epicerie-sucree/petit-dejeuner/cafe-et-chocolat-en-poudre.html?p=5','https://www.carrefour.tn/default/mes-courses-alimentaires/epicerie-sucree/petit-dejeuner/cafe-et-chocolat-en-poudre.html?p=6']
+###############################
 def scrape_page(pages_links:list):
 
     driver.get(pages_links)
@@ -20,7 +23,10 @@ def scrape_page(pages_links:list):
     list_products = driver.find_elements(By.XPATH,"//li[@class='item product product-item']")
     i=0
     for product in list_products:
-        images_links.append(product.find_element(By.XPATH, ".//img").get_attribute("src"))
+        try:
+            images_links.append(product.find_element(By.XPATH, ".//img").get_attribute("src"))
+        except Exception as f:
+            images_links.append('')
         product_name.append(product.find_element(By.XPATH,".//a[@class='product-item-link']").text)
         try:
             product_label.append(product.find_element(By.XPATH,".//a[@class='cr-brand-name']").text)
@@ -49,7 +55,7 @@ all_data_scraped = {
 }
 
 dataframe = pd.DataFrame(all_data_scraped)
-dataframe.to_csv('Jus',index=False)
+dataframe.to_csv('Café',index=False)
 
 
 
